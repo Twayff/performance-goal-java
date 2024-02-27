@@ -2,12 +2,23 @@ package mercado.menu;
 
 import java.util.Scanner;
 
+import mercado.controller.mercadoController;
+import mercado.model.mercadoHortiFruti;
+import mercado.model.mercadoLimpeza;
 import mercado.util.Cores;
 
 public class Menu {
 	public static void main(String[] args) {
 		
 		Scanner leia = new Scanner(System.in);
+		
+		mercadoController produtos = new MercadoController();
+		
+		int id, tipo;
+		String nome, validade;
+		float preco; 
+		
+		
 		
 		while(true) {
 			
@@ -38,10 +49,44 @@ public class Menu {
 			switch(opcao) {
 			case 1:
 				System.out.println(Cores.TEXT_WHITE_BRIGHT + "\n Cadastrar");
+				System.out.println("Digite o nome do produto:");
+				nome = leia.next();
+				
+				System.out.println("Digite o ID do produto:");
+				leia.skip("\\R?");
+				id = leia.nextInt();
+				
+				do {
+					System.out.println("Digite o tipo do produto (1-PHF 2-PL):");
+					tipo = leia.nextInt();
+				}while(tipo < 1 && tipo > 2);
+					System.out.println("Digite o valor do produto para (R$):");
+					preco = leia.nextInt();
+					
+					
+					switch(tipo) {
+					case 1 -> {
+						System.out.println("Você escolheu o setor Horti-Fruti. Digite a validade do produto dd/mm/aaaa");
+						validade = leia.next();
+						produtos.cadastrar(new mercadoHortiFruti(produtos.gerarNumero(), id, tipo, preco, nome, validade));
+					}
+					case 2 -> {
+						System.out.println("Você escolheu o setor da limpeza. Este produto possibilita a troca!" + boolean troca);
+						produtos.cadastrar(new mercadoLimpeza(produtos.gerarNumero(), id, tipo, preco, nome));
+						
+					
+							
+						}
+					}
+					keyPress();
+					
+				
 				break;
 			
 			case 2:
 				System.out.println(Cores.TEXT_WHITE_BRIGHT + "\n Consiltar todos os Produtos");
+				produtos.listarTodos();
+				keyPress();
 				break;
 				
 			case 3:
@@ -63,6 +108,12 @@ public class Menu {
 		}
 				
 	
+	
+
+
+	private static void keyPress() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 
